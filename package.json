@@ -1,6 +1,6 @@
 {
-  "name": "@wandb/sdk",
-  "version": "0.5.1",
+  "name": "@nick.heiner/wandb-fork",
+  "version": "0.5.2-0",
   "engines": {
     "node": ">=18"
   },
