@@ -36,7 +36,6 @@ export class Run {
   }
 
   log(data: Record<string, unknown>, step?: number, commit?: boolean) {
-    console.log('NTH ==== log', data, {step, commit}})
     if (step != null) {
       this.step = step;
     }

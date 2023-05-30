@@ -82,7 +82,6 @@ export class Sender {
     /* eslint-disable no-constant-condition */
     outside: while (true) {
       const record = this.queue.dequeue();
-      console.log('NTH ==== record', record)
       if (record == null) {
         if (this._shutdown) {
           debugLog('Exiting sender loop via shutdown');

@@ -115,7 +115,6 @@ export class FileStream {
           offset: hc.offset,
         },
       });
-      console.log('NTH ====', {offset: hc.offset});
       hc.offset += 1;
       hc.data = {};
     }

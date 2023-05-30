@@ -182,7 +182,6 @@ export class InternalApi {
       vars.entity = this.defaultEntity;
     }
     const req = this.client.request(query.toString(), vars)
-    req.then((res) => console.log('res', res, vars), err => console.log(err));
     return requestWithRetry(req, {
       maxAttempts: 50,
       maxDelayMs: 30000,
