@@ -181,7 +181,9 @@ export class InternalApi {
       // eslint-disable-next-line no-param-reassign
       vars.entity = this.defaultEntity;
     }
-    return requestWithRetry(this.client.request(query.toString(), vars), {
+    const req = this.client.request(query.toString(), vars)
+    req.then((res) => console.log('res', res, vars), err => console.log(err));
+    return requestWithRetry(req, {
       maxAttempts: 50,
       maxDelayMs: 30000,
     });

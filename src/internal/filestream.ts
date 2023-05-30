@@ -5,18 +5,19 @@ import {Delay, requestWithRetry} from '../sdk/lib/retry.js';
 import {debugLog} from '../sdk/lib/util.js';
 import {config} from '../sdk/lib/config.js';
 import {InitRecord} from '../sdk/interface/messenger.js';
+import fs from 'node:fs';
 
-interface FsFinishedData {
+export interface FsFinishedData {
   complete: boolean;
   exitcode: number;
 }
 
-interface FsChunkData {
+export interface FsChunkData {
   offset?: number;
   content: string[];
 }
 
-interface FsRecordData {
+export interface FsRecordData {
   [key: string]: FsChunkData;
 }
 
@@ -24,7 +25,7 @@ interface FsOffsets {
   [key: string]: number;
 }
 
-interface FsFilesData {
+export interface FsFilesData {
   files: FsRecordData;
 }
 
@@ -33,6 +34,7 @@ interface LastChunk {
   data: Record<string, unknown>;
 }
 
+let count = 0;
 export class FileStream {
   // TODO:  Consider changing this to bytes
   MAX_ITEMS = 10000;
@@ -113,6 +115,7 @@ export class FileStream {
           offset: hc.offset,
         },
       });
+      console.log('NTH ====', {offset: hc.offset});
       hc.offset += 1;
       hc.data = {};
     }
@@ -184,6 +187,18 @@ export class FileStream {
 
   private async send(fsdata: FsFilesData | FsFinishedData) {
     // TODO: think about retry logic here
+    fs.writeFileSync(`out-${count++}.json`, JSON.stringify(fsdata));
+    console.log('filestream send', this.settings.baseUrl + this.runPath, {
+      method: 'POST',
+      body: JSON.stringify(fsdata),
+      headers: {
+        'User-Agent': `W&B Internal JS Client ${config().VERSION}`,
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${Buffer.from(
+          `api:${this.settings.apiKey}`
+        ).toString('base64')}`,
+      },
+    });
     const res = await requestWithRetry(
       fetch(this.settings.baseUrl + this.runPath, {
         method: 'POST',
