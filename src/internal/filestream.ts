@@ -187,17 +187,6 @@ export class FileStream {
   private async send(fsdata: FsFilesData | FsFinishedData) {
     // TODO: think about retry logic here
     fs.writeFileSync(`out-${count++}.json`, JSON.stringify(fsdata));
-    console.log('filestream send', this.settings.baseUrl + this.runPath, {
-      method: 'POST',
-      body: JSON.stringify(fsdata),
-      headers: {
-        'User-Agent': `W&B Internal JS Client ${config().VERSION}`,
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${Buffer.from(
-          `api:${this.settings.apiKey}`
-        ).toString('base64')}`,
-      },
-    });
     const res = await requestWithRetry(
       fetch(this.settings.baseUrl + this.runPath, {
         method: 'POST',
