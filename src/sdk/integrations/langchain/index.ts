@@ -109,7 +109,6 @@ export class WandbTracer extends BaseTracer {
   }
 
   protected async persistRun(run: LCRun): Promise<void> {
-    console.log('persistRun', run);
     this._logTrace(
       new WBTraceTree(
         convertLcRunToWbSpan(run),

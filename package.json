@@ -1,6 +1,6 @@
 {
   "name": "@nick.heiner/wandb-fork",
-  "version": "0.5.2-2",
+  "version": "0.5.2-3",
   "engines": {
     "node": ">=18"
   },
@@ -21,6 +21,7 @@
     "dev": "WANDB_ENV=development ts-node-esm",
     "test": "NODE_OPTIONS=\"--experimental-vm-modules\" WANDB_ENV=test jest --detectOpenHandles",
     "test:reset": "jest --clearCache",
+    "prepublish": "npm run build",
     "test:record": "VCR_MODE=record npm run test"
   },
   "keywords": [],
